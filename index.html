@@ -374,11 +374,10 @@
       },
       {
         title: "AUGUST 2026", year: 2026, month: 7, theme: "green",
-        marks: { 1: "teal", 7: "teal", 10: "yellow", 11: "yellow", 18: "blue", 19: "purple" },
+        marks: { 1: "orange", 10: "yellow", 11: "yellow", 18: "blue", 19: "purple" },
         ranges: [],
         events: [
-          ["1", "Sat", "teal", "Summer BBQ/Potluck"],
-          ["7", "Fri", "teal", "All Staff Meeting; Community Potluck"],
+          ["1", "Sat", "orange", "Summer BBQ/Potluck"],
           ["10", "Mon", "yellow", "First Day of School; Early Release (Noon)"],
           ["11", "Tue", "yellow", "Early Release (Noon)"],
           ["18", "Tue", "blue", "Community Council Meeting, 8:30 AM"],
@@ -430,7 +429,7 @@
       },
       {
         title: "DECEMBER 2026", year: 2026, month: 11, theme: "navy",
-        marks: { 4: "teal", 8: "blue", 11: "orange", 12: "orange", 18: "yellow" },
+        marks: { 4: "teal", 8: "blue", 11: "orange", 12: "orange", 16: "purple", 18: "yellow" },
         ranges: [
           { start: 16, end: 17, color: "orange" },
           { start: 21, end: 25, color: "pink" }
@@ -655,7 +654,7 @@
 
       const note = document.createElement("div");
       note.className = "note";
-      note.innerHTML = '<span class="star" aria-hidden="true">&#9733;</span><span>All dates and times are subject to change. Please watch for updates and reminders.</span>';
+      note.innerHTML = '<span class="star" aria-hidden="true">★</span><span>All dates and times are subject to change. Please watch for updates and reminders.</span>';
 
       body.append(list, note);
       card.appendChild(body);
