@@ -1,3 +1,504 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2026-2027 Community Calendar</title>
+  <style>
+    :root {
+      --navy: #062b63;
+      --blue: #0768bb;
+      --teal: #168f92;
+      --green: #386c3b;
+      --purple: #5a438f;
+      --red: #d91f26;
+      --pink: #ff858f;
+      --yellow: #ffc928;
+      --orange: #f26618;
+      --ink: #06133a;
+      --line: #c8d0dc;
+      --paper: #fffefa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at calc(50% - 430px) 5%, rgba(255, 232, 151, 0.18), transparent 26%),
+        radial-gradient(circle at calc(50% + 390px) 10%, rgba(70, 146, 111, 0.12), transparent 27%),
+        var(--paper);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .community-calendar {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 12px 18px 26px;
+      background: transparent;
+    }
+
+    .calendar-header {
+      display: block;
+      width: 100%;
+      margin: 0 0 8px;
+      text-align: center;
+    }
+
+    .title-block {
+      width: 100%;
+    }
+
+    .title-block h1 {
+      margin: 0;
+      color: var(--navy);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(34px, 6vw, 58px);
+      line-height: 0.95;
+      letter-spacing: 0;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .title-block p {
+      margin: 3px 0 0;
+      color: var(--navy);
+      font-size: clamp(19px, 3vw, 32px);
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .months-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .month-card,
+    .key-card {
+      container-type: inline-size;
+      overflow: hidden;
+      min-height: 352px;
+      border: 1.8px solid var(--theme, var(--navy));
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: 0 1px 0 rgba(7, 30, 70, 0.06);
+    }
+
+    .month-title,
+    .key-title {
+      padding: 4px 8px 5px;
+      color: #fff;
+      background: var(--theme, var(--navy));
+      text-align: center;
+      font-size: 19px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .month-body {
+      padding: 8px 10px 10px;
+    }
+
+    .calendar-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: 20px repeat(6, 25px);
+      gap: 0;
+      margin: 0 3px 6px;
+      user-select: none;
+    }
+
+    .weekday {
+      align-self: center;
+      text-align: center;
+      color: #000;
+      font-size: 14px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .day-cell {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+      color: #000;
+      font-size: 15px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .day-num {
+      position: relative;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 25px;
+      height: 25px;
+      border-radius: 999px;
+    }
+
+    .day-num.marked {
+      color: #fff;
+    }
+
+    .day-num.yellow,
+    .day-num.pink {
+      color: #06133a;
+    }
+
+    .day-num.on-dark-range {
+      color: #fff;
+    }
+
+    .range-strip {
+      position: relative;
+      z-index: 1;
+      align-self: center;
+      height: 20px;
+      margin: 0 2px;
+      border-radius: 999px;
+      opacity: 0.95;
+    }
+
+    .red { background: var(--red); }
+    .pink { background: var(--pink); }
+    .purple { background: var(--purple); }
+    .blue { background: var(--blue); }
+    .teal { background: var(--teal); }
+    .green { background: var(--green); }
+    .yellow { background: var(--yellow); }
+    .orange { background: var(--orange); }
+
+    .events-list {
+      display: grid;
+      gap: 5px;
+      margin-top: 5px;
+      padding: 0 2px;
+    }
+
+    .event-row {
+      display: grid;
+      grid-template-columns: 48px 58px minmax(0, 1fr);
+      align-items: start;
+      column-gap: 8px;
+      row-gap: 1px;
+      color: #000;
+      font-size: 12.8px;
+      line-height: 1.25;
+      font-weight: 700;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 22px;
+      height: 22px;
+      padding: 0 5px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .badge.yellow,
+    .badge.pink {
+      color: #06133a;
+    }
+
+    .dow {
+      color: #000;
+      font-size: 12px;
+      line-height: 1.25;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .event-text {
+      min-width: 0;
+    }
+
+    @container (max-width: 340px) {
+      .event-row {
+        grid-template-columns: 48px 58px;
+      }
+
+      .event-text {
+        grid-column: 2 / -1;
+      }
+    }
+
+    .key-body {
+      padding: 18px 30px 22px;
+    }
+
+    .key-list {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .key-item {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.2;
+      font-weight: 700;
+    }
+
+    .key-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+    }
+
+    .note {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      align-items: center;
+      gap: 16px;
+      border-top: 1px solid #8ba2c1;
+      padding: 16px 8px 0;
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .star {
+      color: #174a91;
+      font-size: 43px;
+      line-height: 1;
+    }
+
+    @media (max-width: 980px) {
+      .community-calendar {
+        padding-inline: 12px;
+      }
+
+      .months-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .title-block h1 {
+        white-space: normal;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .months-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .month-card,
+      .key-card {
+        min-height: auto;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .community-calendar {
+        width: 11in;
+        padding: 0.15in;
+      }
+
+      .months-grid {
+        gap: 0.14in;
+      }
+
+      .month-card,
+      .key-card {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="community-calendar" aria-label="2026-2027 Community Calendar">
+    <header class="calendar-header">
+      <div class="title-block">
+        <h1>2026-2027 COMMUNITY CALENDAR</h1>
+        <p>Events at a Glance</p>
+      </div>
+    </header>
+
+    <section class="months-grid" id="calendarMonths"></section>
+  </main>
+
+  <script>
+    const colorHex = {
+      navy: "#062b63",
+      blue: "#0768bb",
+      teal: "#168f92",
+      green: "#386c3b",
+      purple: "#5a438f",
+      red: "#d91f26",
+      pink: "#ff858f",
+      yellow: "#ffc928",
+      orange: "#f26618"
+    };
+
+    const months = [
+      {
+        title: "JULY 2026", year: 2026, month: 6, theme: "navy",
+        marks: { 15: "purple", 29: "yellow", 30: "yellow", 31: "teal" },
+        ranges: [],
+        events: [
+          ["15", "Wed", "purple", "Board Meeting, 6:30 PM"],
+          ["29", "Wed", "yellow", "Early Childhood Open House; New Staff Meeting"],
+          ["30", "Thu", "yellow", "Open House for Grades"],
+          ["31", "Fri", "teal", "All Staff Meeting"]
+        ]
+      },
+      {
+        title: "AUGUST 2026", year: 2026, month: 7, theme: "green",
+        marks: { 1: "teal", 7: "teal", 10: "yellow", 11: "yellow", 18: "blue", 19: "purple" },
+        ranges: [],
+        events: [
+          ["1", "Sat", "teal", "Summer BBQ/Potluck"],
+          ["7", "Fri", "teal", "All Staff Meeting; Community Potluck"],
+          ["10", "Mon", "yellow", "First Day of School; Early Release (Noon)"],
+          ["11", "Tue", "yellow", "Early Release (Noon)"],
+          ["18", "Tue", "blue", "Community Council Meeting, 8:30 AM"],
+          ["19", "Wed", "purple", "Board Meeting, 6:30 PM"]
+        ]
+      },
+      {
+        title: "SEPTEMBER 2026", year: 2026, month: 8, theme: "purple",
+        marks: { 4: "teal", 7: "red", 8: "blue", 16: "purple", 28: "orange" },
+        ranges: [],
+        events: [
+          ["4", "Fri", "teal", "Community Potluck & Clothing Exchange"],
+          ["7", "Mon", "red", "Labor Day (No School)"],
+          ["8", "Tue", "blue", "Community Council Meeting, 8:30 AM"],
+          ["16", "Wed", "purple", "Board Meeting, 6:30 PM"],
+          ["28", "Mon", "orange", "Michaelmas"]
+        ]
+      },
+      {
+        title: "OCTOBER 2026", year: 2026, month: 9, theme: "orange",
+        marks: { 2: "teal", 5: "orange", 12: "red", 20: "blue", 21: "purple", 24: "orange", 30: "orange" },
+        ranges: [
+          { start: 7, end: 9, color: "yellow" },
+          { start: 12, end: 16, color: "pink" }
+        ],
+        events: [
+          ["2", "Fri", "teal", "Community Potluck"],
+          ["5", "Mon", "orange", "40th Day (Tie-Dye Event)"],
+          ["7-9", "Wed-Fri", "yellow", "Early Release (Noon)"],
+          ["12-16", "Mon-Fri", "pink", "Fall Break (No School)"],
+          ["12", "Mon", "red", "Indigenous People's Day"],
+          ["20", "Tue", "blue", "Community Council Meeting, 8:30 AM"],
+          ["21", "Wed", "purple", "Board Meeting, 6:30 PM"],
+          ["24", "Sat", "orange", "Halloween Carnival"],
+          ["30", "Fri", "orange", "Penny Faire"]
+        ]
+      },
+      {
+        title: "NOVEMBER 2026", year: 2026, month: 10, theme: "red",
+        marks: { 6: "teal", 10: "blue", 11: "red", 18: "purple" },
+        ranges: [{ start: 23, end: 27, color: "pink" }],
+        events: [
+          ["6", "Fri", "teal", "Community Potluck & Books/Board Games Exchange"],
+          ["10", "Tue", "blue", "Martinmas (Lantern Walk); Community Council Meeting, 8:30 AM"],
+          ["11", "Wed", "red", "Veterans Day (No School)"],
+          ["18", "Wed", "purple", "Board Meeting, 6:30 PM"],
+          ["23-27", "Mon-Fri", "pink", "Thanksgiving Break (No School)"]
+        ]
+      },
+      {
+        title: "DECEMBER 2026", year: 2026, month: 11, theme: "navy",
+        marks: { 4: "teal", 8: "blue", 11: "orange", 12: "orange", 18: "yellow" },
+        ranges: [
+          { start: 16, end: 17, color: "orange" },
+          { start: 21, end: 25, color: "pink" }
+        ],
+        events: [
+          ["4", "Fri", "teal", "St. Nicholas Day; Community Potluck"],
+          ["8", "Tue", "blue", "Community Council Meeting, 8:30 AM"],
+          ["11", "Fri", "orange", "Santa Lucia"],
+          ["12", "Sat", "orange", "Winter Faire"],
+          ["16-17", "Wed-Thu", "orange", "Advent Spiral Walk"],
+          ["16", "Wed", "purple", "Board Meeting, 6:30 PM"],
+          ["18", "Fri", "yellow", "Early Release (Noon)"],
+          ["21-25", "Mon-Fri", "pink", "Winter Break (No School)"]
+        ]
+      },
+      {
+        title: "JANUARY 2027", year: 2027, month: 0, theme: "teal",
+        marks: { 1: "red", 4: "orange", 8: "teal", 12: "blue", 18: "red", 20: "purple", 27: "orange" },
+        ranges: [],
+        events: [
+          ["1", "Fri", "red", "Winter Break (No School)"],
+          ["4", "Mon", "orange", "First Day Back"],
+          ["8", "Fri", "teal", "Community Potluck & Clothing Exchange"],
+          ["12", "Tue", "blue", "Community Council Meeting, 8:30 AM"],
+          ["18", "Mon", "red", "Civil Rights Day (No School)"],
+          ["20", "Wed", "purple", "Board Meeting, 6:30 PM"],
+          ["27", "Wed", "orange", "100th Day"]
+        ]
+      },
+      {
+        title: "FEBRUARY 2027", year: 2027, month: 1, theme: "purple",
+        marks: { 5: "teal", 9: "blue", 15: "red", 17: "purple" },
+        ranges: [{ start: 10, end: 11, color: "yellow" }],
+        events: [
+          ["5", "Fri", "teal", "Community Potluck"],
+          ["9", "Tue", "blue", "Community Council Meeting, 8:30 AM"],
+          ["10-11", "Wed-Thu", "yellow", "Early Release (Noon)"],
+          ["15", "Mon", "red", "Presidents' Day (No School)"],
+          ["17", "Wed", "purple", "Board Meeting, 6:30 PM"]
+        ]
+      },
+      {
+        title: "MARCH 2027", year: 2027, month: 2, theme: "green",
+        marks: { 5: "teal", 9: "blue", 10: "purple", 13: "orange", 29: "red" },
+        ranges: [{ start: 22, end: 26, color: "pink" }],
+        events: [
+          ["5", "Fri", "teal", "Community Potluck & Books/Board Games Exchange"],
+          ["9", "Tue", "blue", "Community Council Meeting, 8:30 AM"],
+          ["10", "Wed", "purple", "Board Meeting, 6:30 PM"],
+          ["13", "Sat", "orange", "Spring Thing"],
+          ["22-26", "Mon-Fri", "pink", "Spring Break (No School)"],
+          ["29", "Mon", "red", "Easter Observed (No School)"]
+        ]
+      },
+      {
+        title: "APRIL 2027", year: 2027, month: 3, theme: "orange",
+        marks: { 2: "teal", 13: "blue", 14: "purple" },
+        ranges: [],
+        events: [
+          ["2", "Fri", "teal", "Community Potluck"],
+          ["13", "Tue", "blue", "Community Council Meeting, 8:30 AM"],
+          ["14", "Wed", "purple", "Board Meeting, 6:30 PM"]
+        ]
+      },
+      {
+        title: "MAY 2027", year: 2027, month: 4, theme: "green",
+        marks: { 5: "orange", 7: "teal", 11: "blue", 19: "purple", 26: "orange", 27: "yellow", 28: "orange" },
+        ranges: [{ start: 3, end: 7, color: "yellow" }],
         events: [
           ["3-7", "Mon-Fri", "yellow", "Teacher Appreciation Week"],
           ["5", "Wed", "orange", "May Day"],
