@@ -655,7 +655,7 @@
 
       const note = document.createElement("div");
       note.className = "note";
-      note.innerHTML = '<span class="star" aria-hidden="true">★</span><span>All dates and times are subject to change. Please watch for updates and reminders.</span>';
+      note.innerHTML = '<span class="star" aria-hidden="true">&#9733;</span><span>All dates and times are subject to change. Please watch for updates and reminders.</span>';
 
       body.append(list, note);
       card.appendChild(body);
