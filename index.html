@@ -191,7 +191,7 @@
 
     .event-row {
       display: grid;
-      grid-template-columns: 48px 58px minmax(0, 1fr);
+      grid-template-columns: 64px 58px minmax(0, 1fr);
       align-items: start;
       column-gap: 8px;
       row-gap: 1px;
@@ -235,7 +235,7 @@
 
     @container (max-width: 340px) {
       .event-row {
-        grid-template-columns: 48px 58px;
+        grid-template-columns: 64px 58px;
       }
 
       .event-text {
@@ -433,7 +433,8 @@
         marks: { 4: "teal", 8: "blue", 11: "orange", 12: "orange", 16: "purple", 18: "yellow" },
         ranges: [
           { start: 16, end: 17, color: "orange" },
-          { start: 21, end: 25, color: "pink" }
+          { start: 21, end: 25, color: "pink" },
+          { start: 28, end: 31, color: "pink" }
         ],
         events: [
           ["4", "Fri", "teal", "St. Nicholas Day; Community Potluck"],
@@ -443,15 +444,15 @@
           ["16-17", "Wed-Thu", "orange", "Advent Spiral Walk"],
           ["16", "Wed", "purple", "Board Meeting, 6:30 PM"],
           ["18", "Fri", "yellow", "Early Release (Noon)"],
-          ["21-25", "Mon-Fri", "pink", "Winter Break (No School)"]
+          ["21-Jan 1", "Mon-Fri", "pink", "Winter Break (No School)"]
         ]
       },
       {
         title: "JANUARY 2027", year: 2027, month: 0, theme: "teal",
-        marks: { 1: "red", 4: "orange", 8: "teal", 12: "blue", 18: "red", 20: "purple", 27: "orange" },
+        marks: { 1: "pink", 4: "orange", 8: "teal", 12: "blue", 18: "red", 20: "purple", 27: "orange" },
         ranges: [],
         events: [
-          ["1", "Fri", "red", "Winter Break (No School)"],
+          ["1", "Fri", "pink", "Winter Break (No School)"],
           ["4", "Mon", "orange", "First Day Back"],
           ["8", "Fri", "teal", "Community Potluck & Clothing Exchange"],
           ["12", "Tue", "blue", "Community Council Meeting, 8:30 AM"],
